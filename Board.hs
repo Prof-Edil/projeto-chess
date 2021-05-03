@@ -68,6 +68,9 @@ testBoardPawnStucked = Map.fromList $ zip [(2,1),(3,1)] [Piece Black Pawn, Piece
 testBoardPawnEnPassant :: Board
 testBoardPawnEnPassant = Map.fromList $ zip [(4,3),(4,2),(4,4),(5,7),(5,6),(5,8)] [Piece White Pawn, Piece Black Pawn, Piece Black Pawn, Piece Black Pawn, Piece White Pawn, Piece White Pawn]
 
+testBoardCastling :: Board
+testBoardCastling = Map.fromList $ zip [(1,1),(1,5),(1,8),(8,1),(8,5),(8,8)] [Piece Black Rook, Piece Black King, Piece Black Rook, Piece White Rook, Piece White King, Piece White Rook]
+
 -- functions with board 
 
 boardGenerator list1 list2 = Map.fromList $ zip list1 list2
