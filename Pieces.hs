@@ -85,8 +85,61 @@ movePiece (Just (Piece color Bishop) ) x y board = auxMoveShow (conditionBishop 
 movePiece (Just (Piece color Queen) ) x y board = auxMoveShow (conditionQueen color board) x y (Piece color Queen) board
     where conditionQueen color board x y = conditionRook color board x y || conditionBishop color board x y
 
-movePiece (Just (Piece color King) ) x y board = auxMoveShow conditionKing x y (Piece color King) board
-    where conditionKing (a, b) (c, d) = max (abs $ a-c) (abs $ b-d) == 1 && not (isAllyPiece color (c,d) board)
+movePiece (Just (Piece color King) ) x y board 
+    | conditionShortCastling color x y board = castling color x y board
+    | conditionLongCastling  color x y board = castling color x y board
+    | otherwise = auxMoveShow conditionKing x y (Piece color King) board
+    where
+        conditionKing (a, b) (c, d) = max (abs $ a-c) (abs $ b-d) == 1 && not (isAllyPiece color (c,d) board)
+        conditionShortCastling Black x y board
+            =  x ==  (1,5)                         -- king at the starting position
+            && isAllyRook Black (1,8) board        -- tower at the starting position
+            && y == (1,7)                          -- king tries to move 2 cells towards the rook
+            && isEmptySpace (1,6) board            -- both spaces between them are empty cells
+            && isEmptySpace (1,7) board            -- same idea was used for whites and long castling conditions ahead --
+        conditionShortCastling White x y board
+            =  x == (8,5)
+            && isAllyRook White (8,8) board
+            && y == (8,7)
+            && isEmptySpace (8,6) board
+            && isEmptySpace (8,7) board
+        conditionLongCastling Black x y board
+            =  x == (1,5)
+            && isAllyRook Black (1,1) board
+            && y == (1,3)
+            && isEmptySpace (1,4) board
+            && isEmptySpace (1,3) board
+            && isEmptySpace (1,2) board
+        conditionLongCastling White x y board
+            =  x == (8,5)
+            && isAllyRook White (8,1) board
+            && y == (8,3)
+            && isEmptySpace (8,4) board
+            && isEmptySpace (8,3) board
+            && isEmptySpace (8,2) board
+        castling color x y board
+            | x == (1,5) && y == (1,7) = Just
+                                         $ (Map.insert (1,7) (Piece Black King))
+                                         . (Map.insert (1,6) (Piece Black Rook))
+                                         . (Map.delete (1,5)) . (Map.delete (1,8))
+                                         $ board
+            | x == (1,5) && y == (1,3) = Just 
+                                         $ (Map.insert (1,3) (Piece Black King)) 
+                                         . (Map.insert (1,4) (Piece Black Rook)) 
+                                         . (Map.delete (1,5)) . (Map.delete (1,1))
+                                         $ board
+            | x == (8,5) && y == (8,7) = Just 
+                                         $ (Map.insert (8,7) (Piece White King))
+                                         . (Map.insert (8,6) (Piece White Rook)) 
+                                         . (Map.delete (8,5)) . (Map.delete (8,8))
+                                         $ board
+            | x == (8,5) && y == (8,3) = Just
+                                         $ (Map.insert (8,3) (Piece White King)) 
+                                         . (Map.insert (8,4) (Piece White Rook)) 
+                                         . (Map.delete (8,5)) . (Map.delete (8,1))
+                                         $ board
+            | otherwise = Nothing                                        -- this should never happen
+
 
 movePiece (Just (Piece color Knight) ) x y board = auxMoveShow (conditionKnight color board) x y (Piece color Knight) board
     where conditionKnight color board (a, b) (c, d) = (a-c)^2 + (b-d)^2 == 5 && not (isAllyPiece color (c,d) board)
