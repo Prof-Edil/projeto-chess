@@ -1,14 +1,17 @@
 module Main where
 
-import Board
 import Graphics.Gloss
 import Graphics.Gloss.Juicy
+import Data.Maybe (catMaybes)
 import Rendering
 
-picture1 = Translate (-250) (-250) $ drawBoard 500
---picture2 = Translate (-170) 0 $ Scale 0.5 0.5 <$> Text "Hello World" 
+gfxFiles :: [String]
+gfxFiles = map (("images/"++) . (++".png")) $ (map ("b"++) fs) ++ (map ("w"++) fs) where
+           fs = ["k","r","b","q","n","p"]
 
+loadGraphics :: IO [Picture]
+loadGraphics = do gfx <- mapM loadJuicy gfxFiles
+                  return (catMaybes gfx)
 
-main =  do picture <- loadJuicy "images/wk.png"
-           display (InWindow "Chess" (600, 650) (0,0)) white $ pictures [picture1,unJust picture]
-        where unJust (Just x) = x
+main =  do gfx <- loadGraphics
+           display (InWindow "Chess" (600, 650) (0,0)) white (drawWorld gfx 500)       
