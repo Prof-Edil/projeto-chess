@@ -29,6 +29,7 @@ library
   exposed-modules:
       Board
       Pieces
+      Rendering
   other-modules:
       Paths_projeto_chess
   hs-source-dirs:
@@ -49,17 +50,8 @@ executable projeto-chess-exe
   build-depends:
       base >=4.7 && <5
     , projeto-chess
+    , gloss
+    , gloss-juicy
   default-language: Haskell2010
 
-test-suite projeto-chess-test
-  type: exitcode-stdio-1.0
-  main-is: Spec.hs
-  other-modules:
-      Paths_projeto_chess
-  hs-source-dirs:
-      test
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  build-depends:
-      base >=4.7 && <5
-    , projeto-chess
-  default-language: Haskell2010
+
