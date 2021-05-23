@@ -27,15 +27,22 @@ instance Show Piece where
 notColor Black = White
 notColor White = Black
 
-move ::  (Int,Int) -> (Int,Int) -> Board -> Maybe Board
+move :: (Int,Int) -> (Int,Int) -> Board -> Maybe Board
 move x y board = if inBoard x && inBoard y then aux x y board else Nothing
     where aux x y board = movePiece (Map.lookup x board) x y board
 
+moveByTurn ::  PColor -> (Int,Int) -> (Int,Int) -> Board -> Maybe Board
+moveByTurn color x y board = if inBoard x && inBoard y then aux x y board else Nothing
+    where aux x y board = movePieceByTurn color (Map.lookup x board) x y board
 
 inBoard :: (Int,Int) -> Bool
 inBoard (x,y) = 0 < x && x < 9 && 0 < y && y < 9
 
 -- Piece Movements --
+movePieceByTurn :: PColor -> Maybe Piece -> (Int,Int) -> (Int,Int) -> Board -> Maybe Board
+movePieceByTurn color (Just (Piece c t)) x y b = if color == c then movePiece (Just (Piece c t)) x y b else Nothing
+movePieceByTurn _ Nothing _ _ _ = Nothing
+
 movePiece :: Maybe Piece -> (Int,Int) -> (Int,Int) -> Board -> Maybe Board
 movePiece Nothing _ _ _ = Nothing
 

@@ -26,16 +26,23 @@ drawDots :: Float -> Game -> Picture
 drawDots w game = if (selecting game) == Nothing then Blank else pictures $ conditionDots (board game) <$> ((\x y -> (x,y)) <$> [1..8] <*> [1..8])
                   where dots :: Int -> Int -> Picture
                         dots x y = color (greyN 0.25) $ scale (w/8) (w/8) $ translate ( fromIntegral y -0.5) (8-(fromIntegral x -0.5)) $ circleSolid 0.08
+                        target :: Int -> Int -> Picture
+                        target x y = color (greyN 0.25) $ scale (w/8) (w/8) $ translate ( fromIntegral y -0.5) (8-(fromIntegral x -0.5)) $ pictures [ rotate 45.0 $ rectangleSolid 0.1 0.75
+                                                                                                                                                      , rotate (-45.0) $ rectangleSolid 0.1 0.75]
                         conditionDots :: Board -> (Int,Int) -> Picture
-                        conditionDots b (x,y) = if (move (unJust $ selecting game) (x,y) b) /= Nothing then dots x y else Blank 
+                        conditionDots b (x,y) = if (moveByTurn (current game) (unJust $ selecting game) (x,y) b) /= Nothing 
+                                                then (if (Map.lookup (x,y) (board game)) == Nothing then dots x y else target x y)
+                                                else Blank 
                         unJust (Just x) = x
 
 drawWorld :: [Picture] -> Float -> Game -> Picture
 drawWorld gfx bw game = 
     translate (-bw*0.5) (-bw*0.55) $ pictures $ [ drawBoard bw
+                                   , drawTurn bw game
                                    , drawSelected bw (selecting game)
                                    , drawDots bw game
                                    , drawPieces bw gfx (board game)
+--                                   , drawTest bw
 --                                   , Text . show $ selecting game
                                    ]
 
@@ -47,6 +54,14 @@ drawPieces bw gfx b =
       toPic pos p = let (tx, ty) = translatePos bw $ pos
                     in  translate tx ty $ pieceGfx gfx p
 
+drawTurn :: Float -> Game -> Picture
+drawTurn bw game = let
+                      col = case (current game) of Black -> black
+                                                   White -> white
+                   in translate (0.5*bw) (1.1*bw) $ pictures [ color col $ rectangleSolid (bw/16) (bw/16)
+                                                               , color black $ rectangleWire (bw/16) (bw/16) ]
+
+drawTest w = color yellow $ scale (w/8) (w/8) $ translate 0 0.5 $rectangleSolid 1 1
 
 translatePos :: Float -> (Int,Int) -> (Float, Float)
 translatePos bw (c, r) = ((bw/8)*fromIntegral (r-1), (bw/8)*fromIntegral (8-c))
