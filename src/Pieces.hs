@@ -24,6 +24,8 @@ instance Show Piece where
     show (Piece Black Knight) = "n"
     show (Piece _ x) = toUpper  <$> (show $ Piece Black x)
 
+notColor Black = White
+notColor White = Black
 
 move ::  (Int,Int) -> (Int,Int) -> Board -> Maybe Board
 move x y board = if inBoard x && inBoard y then aux x y board else Nothing

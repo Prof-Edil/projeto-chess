@@ -30,6 +30,8 @@ library
       Board
       Pieces
       Rendering
+      Logic
+      Game
   other-modules:
       Paths_projeto_chess
   hs-source-dirs:
