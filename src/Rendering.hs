@@ -42,8 +42,7 @@ drawWorld gfx bw game =
                                    , drawSelected bw (selecting game)
                                    , drawDots bw game
                                    , drawPieces bw gfx (board game)
---                                   , drawTest bw
---                                   , Text . show $ selecting game
+--                                   , Text . show $ state game
                                    ]
 
 drawPieces :: Float -> [Picture] -> Board -> Picture
@@ -61,7 +60,6 @@ drawTurn bw game = let
                    in translate (0.5*bw) (1.1*bw) $ pictures [ color col $ rectangleSolid (bw/16) (bw/16)
                                                                , color black $ rectangleWire (bw/16) (bw/16) ]
 
-drawTest w = color yellow $ scale (w/8) (w/8) $ translate 0 0.5 $rectangleSolid 1 1
 
 translatePos :: Float -> (Int,Int) -> (Float, Float)
 translatePos bw (c, r) = ((bw/8)*fromIntegral (r-1), (bw/8)*fromIntegral (8-c))
