@@ -58,33 +58,33 @@ transformGame (EventKey (Char '1') Down _ _) game =
         Running -> game
         GameOver _ -> game
         Promoting (White,(x,y)) -> game {board = Map.insert (x,y) (Piece White Queen). Map.delete (x,y) $ board game
-                                         ,state = Running}
+                                         ,state = Running, current = Black}
         Promoting (Black,(x,y)) -> game {board = Map.insert (x,y) (Piece Black Queen). Map.delete (x,y) $ board game
-                                         ,state = Running}
+                                         ,state = Running, current = White}
 
 transformGame (EventKey (Char '2') Down _ _) game = 
     case state game of
         Running -> game
         GameOver _ -> game
         Promoting (White,(x,y)) -> game {board = Map.insert (x,y) (Piece White Knight). Map.delete (x,y) $ board game
-                                         ,state = Running}
+                                         ,state = Running, current = Black}
         Promoting (Black,(x,y)) -> game {board = Map.insert (x,y) (Piece Black Knight). Map.delete (x,y) $ board game
-                                         ,state = Running}
+                                         ,state = Running, current = White}
 transformGame (EventKey (Char '3') Down _ _) game = 
     case state game of
         Running -> game
         GameOver _ -> game
         Promoting (White,(x,y)) -> game {board = Map.insert (x,y) (Piece White Bishop). Map.delete (x,y) $ board game
-                                         ,state = Running}
+                                         ,state = Running, current = Black}
         Promoting (Black,(x,y)) -> game {board = Map.insert (x,y) (Piece Black Bishop). Map.delete (x,y) $ board game
-                                         ,state = Running}
+                                         ,state = Running, current = White}
 transformGame (EventKey (Char '4') Down _ _) game = 
     case state game of
         Running -> game
         GameOver _ -> game
         Promoting (White,(x,y)) -> game {board = Map.insert (x,y) (Piece White Rook). Map.delete (x,y) $ board game
-                                         ,state = Running}
+                                         ,state = Running , current = Black}
         Promoting (Black,(x,y)) -> game {board = Map.insert (x,y) (Piece Black Rook). Map.delete (x,y) $ board game
-                                         ,state = Running}
+                                         ,state = Running, current = White}
 
 transformGame _ game = game

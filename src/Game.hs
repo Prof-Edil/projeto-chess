@@ -15,7 +15,7 @@ data Game  = Game { board :: Board
                     , current :: PColor 
                     , state :: State}
 
-initialGame = Game { board = initialBoard 
+initialGame = Game { board = initialBoard
                       , selecting = Nothing
                       , whitePlayer = Player {timeLeft = 999  , captured = []}
                       , blackPlayer = Player {timeLeft = 999 , captured = []}

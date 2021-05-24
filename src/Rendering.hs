@@ -42,8 +42,20 @@ drawWorld gfx bw game =
                                    , drawSelected bw (selecting game)
                                    , drawDots bw game
                                    , drawPieces bw gfx (board game)
+                                   , drawState gfx bw game
 --                                   , Text . show $ state game
                                    ]
+
+
+drawState :: [Picture] -> Float -> Game -> Picture
+drawState gfx bw game = case state game of
+              Running -> Blank
+              GameOver Nothing -> translate (bw/2) (bw/2) $ gfx !! 16
+              GameOver (Just Black) -> translate (bw/2) (bw/2) $ gfx !! 15
+              GameOver (Just White) -> translate (bw/2) (bw/2) $ gfx !! 14
+              Promoting (White,(_,y)) -> translate (7*bw*(fromIntegral y)/63) (14*bw/16) $ gfx !! 13
+              Promoting (Black,(_,y)) -> translate (7*bw*(fromIntegral y)/63) (bw/8) $ gfx !! 12
+
 
 drawPieces :: Float -> [Picture] -> Board -> Picture
 drawPieces bw gfx b = 

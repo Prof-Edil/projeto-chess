@@ -71,6 +71,8 @@ testBoardPawnEnPassant = Map.fromList $ zip [(4,3),(4,2),(4,4),(5,7),(5,6),(5,8)
 testBoardCastling :: Board
 testBoardCastling = Map.fromList $ zip [(1,1),(1,5),(1,8),(8,1),(8,5),(8,8)] [Piece Black Rook, Piece Black King, Piece Black Rook, Piece White Rook, Piece White King, Piece White Rook]
 
+testPromotion :: Board
+testPromotion = boardGenerator ([(2,u) | u <- [1..8]]++[(7,u) | u <- [1..8]] ++ [(4,4),(4,5)]) ([Piece White Pawn | u <- [1..8]]++ [Piece Black Pawn | u <- [1..8]]++[Piece Black King, Piece White King])
 -- functions with board 
 
 boardGenerator list1 list2 = Map.fromList $ zip list1 list2
