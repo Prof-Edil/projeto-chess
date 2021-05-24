@@ -11,11 +11,15 @@ $ stack run
 
 O projeto consiste em um tabuleiro de xadrez, em que dois jogadores poderão disputar uma partida entre si.
 
-Algumas ferramentas, como a detecção de xeques e xeque-mate não foram implementadas, porém todas as movimentações estão funcionando corretamente, e o jogo está funcionando perfeitamente.
+Algumas ferramentas, como a detecção de xeques e xeque-mate não foram implementadas, porém todas as movimentações estão funcionando, e o jogo roda perfeitamente.
 
 Como não temos xeque-mate, o fim da partida ocorre com a captura do rei adversário.
 
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/uK7VzqnYnEw)
+## Vídeo do Projeto
+
+Clique na imagem abaixo para abrir o vídeo, ou acesse pelo link https://youtu.be/uK7VzqnYnEw.
+
+[![Watch the video](video-preview.jpg)](https://youtu.be/uK7VzqnYnEw)
 
 ## Regras do Xadrez:
 
@@ -31,7 +35,7 @@ Como não temos xeque-mate, o fim da partida ocorre com a captura do rei advers�
 
 - Arranjo inicial das peças - As peças são dispostas sobre o tabuleiro conforme a figura a seguir:
 
-	![posição inical do tabuleiro](http://2.bp.blogspot.com/_YuN6ZIQ3nr8/TQ93EsyTc-I/AAAAAAAAABQ/1yVXvUFJPa0/s1600/posicao+inicial+das+pe%25C3%25A7as.jpg)
+	![posição inical do tabuleiro](initial-board.jpg)
 
 - Condução do jogo: 
 	Por convenção, o jogador com as peças brancas faz a primeira jogada, e a partir de então as jogadas são alternadas. A partida continua até que um jogador aplique o xeque-mate, que é a ameaça de captura do rei adversário de modo que ele não consiga escapar ou impedir o ataque, ou um dos jogadores abandone a partida ou o empate seja declarado.
