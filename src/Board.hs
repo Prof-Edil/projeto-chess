@@ -4,6 +4,39 @@ import qualified Data.Map as Map
 import Data.Char
 import Pieces
 
+
+--initial board ---
+initialBoard :: Board
+initialBoard = Map.fromList [((1,1), Piece Black Rook), ((1,2), Piece Black Knight), ((1,3), Piece Black Bishop)
+                            , ((1,4), Piece Black Queen), ((1,5), Piece Black King), ((1,6), Piece Black Bishop)
+                            , ((1,7), Piece Black Knight), ((1,8), Piece Black Rook), ((2,1), Piece Black Pawn)
+                            , ((2,2), Piece Black Pawn), ((2,3), Piece Black Pawn), ((2,4), Piece Black Pawn)
+                            , ((2,5), Piece Black Pawn), ((2,6), Piece Black Pawn), ((2,7), Piece Black Pawn)
+                            , ((2,8), Piece Black Pawn), ((8,1), Piece White Rook), ((8,2), Piece White Knight) 
+                            , ((8,3), Piece White Bishop), ((8,4), Piece White Queen), ((8,5), Piece White King) 
+                            , ((8,6), Piece White Bishop), ((8,7), Piece White Knight), ((8,8), Piece White Rook) 
+                            , ((7,1), Piece White Pawn), ((7,2), Piece White Pawn), ((7,3), Piece White Pawn)
+                            , ((7,4), Piece White Pawn), ((7,5), Piece White Pawn), ((7,6), Piece White Pawn)
+                            , ((7,7), Piece White Pawn), ((7,8), Piece White Pawn)
+                            ] :: Board
+
+--test boards--
+testBoard :: Board
+testBoard = Map.fromList $ zip [(1,2),(3,3),(5,4),(2,4),(1,4),(4,3)] [Piece Black Pawn, Piece White Rook, Piece Black Bishop, Piece White Queen, Piece Black King, Piece White Knight] :: Board
+
+testBoardPawnStucked :: Board
+testBoardPawnStucked = Map.fromList $ zip [(2,1),(3,1)] [Piece Black Pawn, Piece White Pawn] :: Board
+
+testBoardPawnEnPassant :: Board
+testBoardPawnEnPassant = Map.fromList $ zip [(4,3),(4,2),(4,4),(5,7),(5,6),(5,8)] [Piece White Pawn, Piece Black Pawn, Piece Black Pawn, Piece Black Pawn, Piece White Pawn, Piece White Pawn]
+
+testBoardCastling :: Board
+testBoardCastling = Map.fromList $ zip [(1,1),(1,5),(1,8),(8,1),(8,5),(8,8)] [Piece Black Rook, Piece Black King, Piece Black Rook, Piece White Rook, Piece White King, Piece White Rook]
+
+testPromotion :: Board
+testPromotion = boardGenerator ([(2,u) | u <- [1..8]]++[(7,u) | u <- [1..8]] ++ [(4,4),(4,5)]) ([Piece White Pawn | u <- [1..8]]++ [Piece Black Pawn | u <- [1..8]]++[Piece Black King, Piece White King])
+
+----------- Debug functions
 -- A simulation of a game (currently without turns and the end condition is an invalid move)
 -- The coordinates used are matrix like: 
 --
@@ -41,39 +74,6 @@ game board = do
         where 
             unJust (Just x) = x
             auxGame x = if x == Nothing then putStr "" else game (unJust x)
-
-
---initial board ---
-initialBoard :: Board
-initialBoard = Map.fromList [((1,1), Piece Black Rook), ((1,2), Piece Black Knight), ((1,3), Piece Black Bishop)
-                            , ((1,4), Piece Black Queen), ((1,5), Piece Black King), ((1,6), Piece Black Bishop)
-                            , ((1,7), Piece Black Knight), ((1,8), Piece Black Rook), ((2,1), Piece Black Pawn)
-                            , ((2,2), Piece Black Pawn), ((2,3), Piece Black Pawn), ((2,4), Piece Black Pawn)
-                            , ((2,5), Piece Black Pawn), ((2,6), Piece Black Pawn), ((2,7), Piece Black Pawn)
-                            , ((2,8), Piece Black Pawn), ((8,1), Piece White Rook), ((8,2), Piece White Knight) 
-                            , ((8,3), Piece White Bishop), ((8,4), Piece White Queen), ((8,5), Piece White King) 
-                            , ((8,6), Piece White Bishop), ((8,7), Piece White Knight), ((8,8), Piece White Rook) 
-                            , ((7,1), Piece White Pawn), ((7,2), Piece White Pawn), ((7,3), Piece White Pawn)
-                            , ((7,4), Piece White Pawn), ((7,5), Piece White Pawn), ((7,6), Piece White Pawn)
-                            , ((7,7), Piece White Pawn), ((7,8), Piece White Pawn)
-                            ] :: Board
-
---test boards--
-testBoard :: Board
-testBoard = Map.fromList $ zip [(1,2),(3,3),(5,4),(2,4),(1,4),(4,3)] [Piece Black Pawn, Piece White Rook, Piece Black Bishop, Piece White Queen, Piece Black King, Piece White Knight] :: Board
-
-testBoardPawnStucked :: Board
-testBoardPawnStucked = Map.fromList $ zip [(2,1),(3,1)] [Piece Black Pawn, Piece White Pawn] :: Board
-
-testBoardPawnEnPassant :: Board
-testBoardPawnEnPassant = Map.fromList $ zip [(4,3),(4,2),(4,4),(5,7),(5,6),(5,8)] [Piece White Pawn, Piece Black Pawn, Piece Black Pawn, Piece Black Pawn, Piece White Pawn, Piece White Pawn]
-
-testBoardCastling :: Board
-testBoardCastling = Map.fromList $ zip [(1,1),(1,5),(1,8),(8,1),(8,5),(8,8)] [Piece Black Rook, Piece Black King, Piece Black Rook, Piece White Rook, Piece White King, Piece White Rook]
-
-testPromotion :: Board
-testPromotion = boardGenerator ([(2,u) | u <- [1..8]]++[(7,u) | u <- [1..8]] ++ [(4,4),(4,5)]) ([Piece White Pawn | u <- [1..8]]++ [Piece Black Pawn | u <- [1..8]]++[Piece Black King, Piece White King])
--- functions with board 
 
 boardGenerator list1 list2 = Map.fromList $ zip list1 list2
 

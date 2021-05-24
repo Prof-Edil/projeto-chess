@@ -13,13 +13,15 @@ switchPlayer game =
       White -> game { current = Black }
 
 playerTurn :: Game -> (Int,Int) -> Game
-playerTurn game pos
-    | Just c <- winner (board game) = game {state = GameOver $ Just c}
-    | (selecting game) == Nothing = game {selecting = Just pos}
-    | isJust $ selecting game = auxPlayerTurn (moveByTurn (current game) (unJust $ selecting game) pos (board game)) game
-    where auxPlayerTurn z game = if z == Nothing then game {selecting = Nothing} 
-                                 else ( if checkPromotion pos (unJust z) then game {board = unJust z , selecting = Nothing , state = Promoting (current game, pos)}
-                                        else game {board = unJust z , selecting = Nothing , current = notColor $ current game})
+playerTurn game pos = case selecting game of
+    Nothing -> game {selecting = Just pos}
+    Just _ -> auxPlayerTurn (moveByTurn (current game) (unJust $ selecting game) pos (board game)) game
+    where auxPlayerTurn z game  
+            | z == Nothing = game {selecting = Nothing}
+            | Just c <- winner (unJust z) = game {state = GameOver $ Just c}
+            | otherwise = if checkPromotion pos (unJust z) then game {board = unJust z , selecting = Nothing , state = Promoting (current game, pos)}
+                                        else game {board = unJust z , selecting = Nothing , current = notColor $ current game}
+
           unJust (Just x) = x
 
 mousePosAsCellCoord :: (Float, Float) -> (Int, Int)
@@ -46,7 +48,7 @@ checkPromotion (x,y) board
         |x == 1 = Map.lookup (x,y) board == Just (Piece White Pawn)
         |x == 8 = Map.lookup (x,y) board == Just (Piece Black Pawn)
         |otherwise = False                                       
-
+  
 transformGame (EventKey (MouseButton LeftButton) Up _ mousePos) game = 
     case state game of
         Running -> playerTurn game $ mousePosAsCellCoord mousePos
