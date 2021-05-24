@@ -1,6 +1,21 @@
 # Projeto Chess
 
+Para iniciar o jogo, basta baixar o repositório e executar os seguintes comandos:
+
+```console
+$ stack build
+$ stack run
+```
+
+## Especificações do Projeto
+
 O projeto consiste em um tabuleiro de xadrez, em que dois jogadores poderão disputar uma partida entre si.
+
+Algumas ferramentas, como a detecção de xeques e xeque-mate não foram implementadas, porém todas as movimentações estão funcionando corretamente, e o jogo está funcionando perfeitamente.
+
+Como não temos xeque-mate, o fim da partida ocorre com a captura do rei adversário.
+
+[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/uK7VzqnYnEw)
 
 ## Regras do Xadrez:
 
