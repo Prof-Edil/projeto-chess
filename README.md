@@ -7,7 +7,7 @@ $ stack build
 $ stack run
 ```
 
-## Especificações do Projeto
+## Descrição do Projeto
 
 O projeto consiste em um tabuleiro de xadrez, em que dois jogadores poderão disputar uma partida entre si.
 
